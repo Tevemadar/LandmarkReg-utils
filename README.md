@@ -1,0 +1,10 @@
+# LandmarkReg support utilities
+
+This repository contains some utilities for [LandmarkReg](https://github.com/Tevemadar/LandmarkReg)
+
+* BinX.java - binarize 8-bit grayscale NIfTI volume. Arguments ```x.nii 50``` will produce ```x_bin.nii``` of zeros and ones, using ```50``` as threshold value
+* ChX.java - get a single channel from a NIfTI volume. Arguments ```x.nii 0``` will produce ```x_ch.nii``` containing the first channel of ```x.nii```
+* CuPyd.java - builds an entire 8-bit pyramid from its top level. Arguments ```5000 2000 1000 x``` expects the top-level of a 5000x2000x1000 pyramid present in folder ```x\0```, and builds the remaining levels. Folder argument is optional
+* Match.java - bring a NIfTI volume into a target space (matching another NIfTI volume) using LandmarkReg output. Arguments ```x.nii y.nii ytox.json``` will produce ```y_match.nii``` having the same dimensions as ```x.nii```, but containing resampled values from ```y.nii``` using the linear transformation described by landmarks in ```ytox.json```
+* NIfTI2TopCubes.java - generate top-level of a pyramid from a grayscale NIfTI (8-bit int/uint and 32/64-bit float are supported, output is scaled to 8-bit). Argument ```x.nii``` will produce ```x_c0\0\...``` folder with top-level data and ```x.json``` LandmarkReg descriptor. ```_c0``` denotes the first channel, in the presence of more ```_c1```, ```_c2```, etc. are generated accordingly and stored in the descriptor. ```CuPyd``` is called automatically to generate remainder of the pyramids for all channels
+* PituBuild.java - rebuild z-stacked volume pairs (ventral-dorsal). Arguments ```v.nii d.nii lm.json result.nii``` will produce ```result.nii``` with width and length of ```v.nii```, but height of ```v.nii```+```d.nii```, containing a "max" combination of ```v.nii``` and ```d.nii```-brought-to-```v.nii``` using the linear transformation described by landmarks in ```lm.json```
